@@ -67,7 +67,9 @@
       var li = $('<li>').append(a)
       ul.append(li)
       if (typeof target.target === 'function') {
-        a.click(target.target)
+        a.click(function (e) {
+          target.target.call(this, e, target.label, target.data)
+        })
       } else if (typeof target.target === 'string' ) {
         a.attr('href', target.target)
       } else {

@@ -12,12 +12,17 @@
 
         $(function () {
 
+          var apple = function (e, label, data) {
+            e.preventDefault() // Please don't change my url.
+            alert(data.type + ' ' + label)
+          }
+
           var menu = {
             label: 'Menu',
             target: [
               {
                 label: 'Fruits',
-                target: [ {label: 'Apple', target: function () {}}, {label: 'Banana', target: function () {}}, {label: 'Kiwi', target: function () {}} ]
+                target: [ {label: 'Apple', data: {type: 'Honeycrisp'}, target: apple}, {label: 'Banana', target: function () {}}, {label: 'Kiwi', target: function () {}} ]
               },
               {
                 label: 'Vegetables',
