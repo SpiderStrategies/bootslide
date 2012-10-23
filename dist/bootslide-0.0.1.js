@@ -1,3 +1,8 @@
+/*!
+ * bootslide.js v0.0.1 
+ * Copyright 2012, Spider Strategies <nathan.bowser@spiderstrategies.com> 
+ * bootslide.js may be freely distributed under the BSD license. 
+*/
 (function (root) {
 
   var Bootslide = function (menu, opts) {
