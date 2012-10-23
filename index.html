@@ -10,14 +10,19 @@
     <script src="./src/bootslide.js"></script>
     <script type='text/javascript'>
 
-        $(function () {
+         $(function () {
+
+          var apple = function (e, label, data) {
+            e.preventDefault() // Please don't change my url.
+            alert(data.type + ' ' + label)
+          }
 
           var menu = {
             label: 'Menu',
             target: [
               {
                 label: 'Fruits',
-                target: [ {label: 'Apple', target: function () {}}, {label: 'Banana', target: function () {}}, {label: 'Kiwi', target: function () {}} ]
+                target: [ {label: 'Apple', data: {type: 'Honeycrisp'}, target: apple}, {label: 'Banana', target: function () {}}, {label: 'Kiwi', target: function () {}} ]
               },
               {
                 label: 'Vegetables',
@@ -53,7 +58,6 @@
           var bootslide = new Bootslide(menu)
 
           $('#container').html(bootslide.render())
-
         })
 
     </script>

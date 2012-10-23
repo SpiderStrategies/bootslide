@@ -17,7 +17,7 @@
     var sections = []
     this.buildSections(this.menu, sections)
     slider.append(sections)
-    this.reset(div)
+    this.resetMargins(div)
 
     $('.bootslide-menu a.bootslide-scrollable', div).click(function (e) {
       e.preventDefault()
@@ -26,14 +26,18 @@
         , previous = $(this).parents('.bootslide-section')
 
       previous.after(target)
-      self.reset()
+      self.resetMargins()
       $('.bootslide-menu-slider').css('margin-left', target.index() * width * -1)
     })
 
     return div
   }
 
-  Bootslide.prototype.reset = function (ctx) {
+  Bootslide.prototype.reset = function () {
+    $('.bootslide-menu-slider').css('margin-left', 0)
+  }
+
+  Bootslide.prototype.resetMargins = function (ctx) {
     var width = this.width
     $('.bootslide-section', ctx).css('margin-left', function (i) {
       return width * i
@@ -63,7 +67,9 @@
       var li = $('<li>').append(a)
       ul.append(li)
       if (typeof target.target === 'function') {
-        a.click(target.target)
+        a.click(function (e) {
+          target.target.call(this, e, target.label, target.data)
+        })
       } else if (typeof target.target === 'string' ) {
         a.attr('href', target.target)
       } else {
