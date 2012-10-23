@@ -1,0 +1,24 @@
+{
+  "name": "bootslide",
+  "version": "0.0.1",
+  "description": "Builds an iphone type menu",
+  "main": "src/bootslide.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SpiderStrategies/bootslide"
+  },
+  "keywords": [
+    "backbone"
+  ],
+  "author": "Nathan Bowser <nathan.bowser@spiderstrategies.com>",
+  "license": "BSD",
+  "dependencies": {
+    "uglify-js": "~1.3.3"
+  },
+  "devDependencies": {
+    "uglify-js": "~1.3.3"
+  }
+}
