@@ -50,17 +50,6 @@
   border-bottom: 1px solid #e5e5e5;
 }
 
-.bootslide-menu-slider ul > .active > a {
-  position: relative;
-  z-index: 2;
-  padding: 9px 15px;
-  border: 0;
-  text-shadow: 0 1px 0 rgba(0,0,0,.15);
-  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-}
-
 .bootslide-menu-slider .icon-chevron-right {
   float: right;
   margin-top: 2px;
@@ -70,14 +59,4 @@
 
 .bootslide-menu-slider > li > a:hover {
   background-color: #f5f5f5;
-}
-
-.bootslide-menu-slider a:hover .icon-chevron-right {
-  opacity: .5;
-}
-
-.bootslide-menu-slider .active .icon-chevron-right,
-.bootslide-menu-slider .active a:hover .icon-chevron-right {
-  background-image: url(../img/glyphicons-halflings-white.png);
-  opacity: 1;
 }
