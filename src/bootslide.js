@@ -7,6 +7,12 @@
     // By default the back control is the bootstrap left arrow
     this.back = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
     this.next = '<div class="bootslide-next">' + (opts.next || '<i class="icon-chevron-right"></i>') + '</div>'
+
+    // This provides an icon to be displayed on the deepest menu items.
+    if (opts.last) {
+      this.last = '<div class="bootslide-next">' + opts.last  + '</div>'
+    }
+
     this.menu = menu
   }
 
@@ -70,13 +76,21 @@
       var a = $('<a href="#' + ('bootstrap-' + target.label.replace(/\ /,'-')) + '">').text(target.label)
       var li = $('<li>').append(a)
       ul.append(li)
+
       if (typeof target.target === 'function') {
+        // If it's a function, that means it's the last step
         a.click(function (e) {
           target.target.call(this, e, target.label, target.data)
         })
+        // If they set up a last icon for each item
+        if (self.last) {
+          a.prepend(self.last)
+        }
       } else if (typeof target.target === 'string' ) {
+        // If it's a string, treat it as a basic url
         a.attr('href', target.target)
       } else {
+        // Keep digging
         a.addClass('bootslide-scrollable')
         a.prepend(self.next)
         self.buildSections(target, sections, true)

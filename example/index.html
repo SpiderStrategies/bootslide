@@ -55,7 +55,9 @@
               }
             ]}
 
-          var bootslide = new Bootslide(menu)
+          var bootslide = new Bootslide(menu, {
+            last: '<button>+</button>'
+          })
 
           $('#container').html(bootslide.render())
 
