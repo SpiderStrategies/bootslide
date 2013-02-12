@@ -1,6 +1,6 @@
 {
   "name": "bootslide",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Builds an iphone type menu",
   "main": "src/bootslide.js",
   "scripts": {
@@ -10,9 +10,6 @@
     "type": "git",
     "url": "https://github.com/SpiderStrategies/bootslide"
   },
-  "keywords": [
-    "backbone"
-  ],
   "author": "Nathan Bowser <nathan.bowser@spiderstrategies.com>",
   "license": "BSD",
   "devDependencies": {

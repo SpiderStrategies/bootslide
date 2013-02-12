@@ -1,5 +1,5 @@
 /*!
- * bootslide.js v0.0.1 
+ * bootslide.js v0.0.2 
  * Copyright 2012, Spider Strategies <nathan.bowser@spiderstrategies.com> 
  * bootslide.js may be freely distributed under the BSD license. 
 */
@@ -8,6 +8,10 @@
   var Bootslide = function (menu, opts) {
     var opts = opts || {}
     this.width = opts.width || 250
+
+    // By default the back control is the bootstrap left arrow
+    this.back = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
+    this.next = '<div class="bootslide-next">' + (opts.next || '<i class="icon-chevron-right"></i>') + '</div>'
     this.menu = menu
   }
 
@@ -58,7 +62,7 @@
                             .append(header)
 
     if (back) {
-      header.prepend('<i class="icon-chevron-left"></i>').click(function () {
+      header.prepend(this.back).click(function () {
         var ml = (($(this).parents('.bootslide-section').index() * width) - width) * -1
         $('.bootslide-menu-slider').css('margin-left', ml)
       })
@@ -79,7 +83,7 @@
         a.attr('href', target.target)
       } else {
         a.addClass('bootslide-scrollable')
-        a.prepend('<i class="icon-chevron-right"></i>')
+        a.prepend(self.next)
         self.buildSections(target, sections, true)
       }
     })

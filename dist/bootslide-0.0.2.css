@@ -1,0 +1,41 @@
+.bootslide-container {
+  background-color: #fff;
+  height: 350px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bootslide-header {
+  background-color: #e5e5e5;
+  font-size: 20px;
+  height: 30px;
+  padding: 0 10px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.bootslide-header .bootslide-back {
+  float: left;
+}
+
+.bootslide-menu-slider .bootslide-next {
+  float: right;
+}
+
+.bootslide-section {
+  float: left;
+  position: absolute;
+}
+
+.bootslide-menu-slider {
+  -webkit-transition: margin-left .5s;
+  -moz-transition: margin-left .5s;
+  -o-transition: margin-left .5s;
+  transition: margin-left .5s;
+}
+
+.bootslide-menu-slider ul > li > a {
+  display: block;
+  padding: 8px 14px;
+  border-bottom: 1px solid #e5e5e5;
+}
