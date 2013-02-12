@@ -3,6 +3,9 @@
   var Bootslide = function (menu, opts) {
     var opts = opts || {}
     this.width = opts.width || 250
+
+    // By default the back control is the bootstrap left arrow
+    this.back = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
     this.menu = menu
   }
 
@@ -53,7 +56,7 @@
                             .append(header)
 
     if (back) {
-      header.prepend('<i class="icon-chevron-left"></i>').click(function () {
+      header.prepend(this.back).click(function () {
         var ml = (($(this).parents('.bootslide-section').index() * width) - width) * -1
         $('.bootslide-menu-slider').css('margin-left', ml)
       })

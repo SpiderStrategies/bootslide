@@ -28,6 +28,10 @@
   text-shadow: 0 1px 0 white;
 }
 
+.bootslide-header .bootslide-back {
+  float: left;
+}
+
 .bootslide-section {
   float: left;
   position: absolute;
@@ -55,18 +59,6 @@
   -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
      -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
           box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-}
-
-.bootslide-menu-slider .icon-chevron-left {
-  float: left;
-  margin-top: 6px;
-  margin-left: -6px;
-  opacity: .25;
-  cursor: pointer;
-}
-
-.bootslide-menu-slider .icon-chevron-left:hover {
-  opacity: .5;
 }
 
 .bootslide-menu-slider .icon-chevron-right {
