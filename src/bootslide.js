@@ -6,6 +6,7 @@
 
     // By default the back control is the bootstrap left arrow
     this.back = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
+    this.next = '<div class="bootslide-next">' + (opts.next || '<i class="icon-chevron-right"></i>') + '</div>'
     this.menu = menu
   }
 
@@ -77,7 +78,7 @@
         a.attr('href', target.target)
       } else {
         a.addClass('bootslide-scrollable')
-        a.prepend('<i class="icon-chevron-right"></i>')
+        a.prepend(self.next)
         self.buildSections(target, sections, true)
       }
     })

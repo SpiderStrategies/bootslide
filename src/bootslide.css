@@ -18,6 +18,10 @@
   float: left;
 }
 
+.bootslide-menu-slider .bootslide-next {
+  float: right;
+}
+
 .bootslide-section {
   float: left;
   position: absolute;
@@ -34,11 +38,4 @@
   display: block;
   padding: 8px 14px;
   border-bottom: 1px solid #e5e5e5;
-}
-
-.bootslide-menu-slider .icon-chevron-right {
-  float: right;
-  margin-top: 2px;
-  margin-right: -6px;
-  opacity: .25;
 }
