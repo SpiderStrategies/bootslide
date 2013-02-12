@@ -73,7 +73,9 @@
       , self = this
 
     $.each(menu.target, function (index, target) {
-      var a = $('<a href="#' + ('bootstrap-' + target.label.replace(/\ /,'-')) + '">').text(target.label)
+      var a = $('<a href="#' + ('bootstrap-' + target.label.replace(/\ /,'-')) + '">')
+                  .text(target.label)
+                  .addClass(target.label.toLowerCase())
       var li = $('<li>').append(a)
       ul.append(li)
 
