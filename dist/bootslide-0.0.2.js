@@ -82,10 +82,12 @@
                   .text(target.label)
                   .addClass(target.label.toLowerCase())
       var li = $('<li>').append(a)
+
       ul.append(li)
 
       if (typeof target.target === 'function') {
         // If it's a function, that means it's the last step
+        li.addClass('bootslide-endpoint')
         a.click(function (e) {
           target.target.call(this, e, target.label, target.data)
         })
@@ -94,9 +96,11 @@
           a.prepend(self.last)
         }
       } else if (typeof target.target === 'string' ) {
+        li.addClass('bootslide-endpoint')
         // If it's a string, treat it as a basic url
         a.attr('href', target.target)
       } else {
+        li.addClass('bootslide-step')
         // Keep digging
         a.addClass('bootslide-scrollable')
         a.prepend(self.next)
