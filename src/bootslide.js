@@ -73,10 +73,11 @@
       , self = this
 
     $.each(menu.target, function (index, target) {
-      var a = $('<a href="#' + ('bootstrap-' + target.label.replace(/\ /,'-')) + '">')
+      var label = target.label.replace(/\ /g,'-')
+        , a = $('<a href="#' + ('bootstrap-' + label) + '">')
                   .text(target.label)
-                  .addClass(target.label.toLowerCase())
-      var li = $('<li>').append(a)
+                  .addClass(label.toLowerCase())
+        , li = $('<li>').append(a)
 
       ul.append(li)
 
