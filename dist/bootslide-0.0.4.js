@@ -1,5 +1,5 @@
 /*!
- * bootslide.js v0.0.3 
+ * bootslide.js v0.0.4 
  * Copyright 2012, Spider Strategies <nathan.bowser@spiderstrategies.com> 
  * bootslide.js may be freely distributed under the BSD license. 
 */
@@ -79,6 +79,7 @@
 
     $.each(menu.target, function (index, target) {
       var label = target.label.replace(/\ /g,'-')
+                              .replace(/[^\w\s-]/g, '')
         , a = $('<a href="#' + ('bootstrap-' + label) + '">')
                   .text(target.label)
                   .addClass(label.toLowerCase())
