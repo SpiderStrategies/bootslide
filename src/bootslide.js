@@ -74,6 +74,7 @@
 
     $.each(menu.target, function (index, target) {
       var label = target.label.replace(/\ /g,'-')
+                              .replace(/[^\w\s-]/g, '')
         , a = $('<a href="#' + ('bootstrap-' + label) + '">')
                   .text(target.label)
                   .addClass(label.toLowerCase())
