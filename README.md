@@ -22,11 +22,10 @@ A target can be
 
   ```
 
-  target: function (e, label, data) {
+  target: function (e, <args>) {
     // this -> The link they clicked
     // e -> The event
-    // label -> The menu item label
-    // data -> The data attribute part of the menu item
+    // args -> you set this
   }
 
   ```
