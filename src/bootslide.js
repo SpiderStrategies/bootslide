@@ -6,6 +6,9 @@ var Bootslide = function (menu, opts) {
   this.back = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
   this.next = '<div class="bootslide-next">' + (opts.next || '<i class="icon-chevron-right"></i>') + '</div>'
 
+  // Sets a default target function
+  this.defaultTarget = opts.defaultTarget
+
   // This provides an icon to be displayed on the deepest menu items.
   if (opts.last) {
     this.last = '<div class="bootslide-next">' + opts.last  + '</div>'
@@ -80,11 +83,15 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
 
     ul.append(li)
 
-    if (typeof target.target === 'function') {
+    if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
+      var fn = (typeof target.target === 'undefined' && self.defaultTarget) || target.target
+        , args = target.args || []
+
       // If it's a function, that means it's the last step
       li.addClass('bootslide-endpoint')
       a.click(function (e) {
-        target.target.call(this, e, target.label, target.data)
+        args.unshift(e)
+        fn.apply(this, args)
       })
       // If they set up a last icon for each item
       if (self.last) {
