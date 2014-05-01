@@ -13,9 +13,9 @@
         $(function () {
           var Bootslide = require('bootslide')
 
-          var apple = function (e, label, data) {
+          var apple = function (e, type) {
             e.preventDefault() // Please don't change my url.
-            alert(data.type + ' ' + label)
+            alert(type)
           }
 
           var menu = {
@@ -23,15 +23,15 @@
             target: [
               {
                 label: 'Fruits',
-                target: [ {label: 'Apple', data: {type: 'Honeycrisp'}, target: apple}, {label: 'Banana', target: function () {}}, {label: 'Kiwi', target: function () {}} ]
+                target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
               },
               {
                 label: 'Vegetables',
                 target: [
-                  {label: 'Carrot', target: function () {}},
-                  {label: 'Squash', target: function () {}},
-                  {label: 'Beet', target: function () {}},
-                  {label: 'Celery', target: function () {}}
+                  {label: 'Carrot'},
+                  {label: 'Squash'},
+                  {label: 'Beet'},
+                  {label: 'Celery'}
                 ]
               },
               {
@@ -57,7 +57,10 @@
             ]}
 
           var bootslide = new Bootslide(menu, {
-            last: '<button>+</button>'
+            last: '<button>+</button>',
+            defaultTarget: function () {
+              console.log('default target', arguments)
+            }
           })
 
           $('#container').html(bootslide.render())
