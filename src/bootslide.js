@@ -1,3 +1,5 @@
+var $ = require('jquery')
+
 var Bootslide = function (menu, opts) {
   var opts = opts || {}
   this.width = opts.width || 250
