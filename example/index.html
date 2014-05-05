@@ -6,12 +6,12 @@
     <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
     <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../src/bootslide.css" />
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="./bundle.js"></script>
     <script type='text/javascript'>
 
-        $(function () {
+        window.onload = function () {
           var Bootslide = require('bootslide')
+            , $ = require('jquery')
 
           var apple = function (e, type) {
             e.preventDefault() // Please don't change my url.
@@ -64,8 +64,7 @@
           })
 
           $('#container').html(bootslide.render())
-
-        })
+        }
 
     </script>
     <style>

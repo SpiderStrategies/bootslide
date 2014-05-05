@@ -8,7 +8,7 @@
     "url": "https://github.com/SpiderStrategies/bootslide"
   },
   "scripts": {
-    "bundle": "node_modules/.bin/browserify -r ./src/bootslide:bootslide -o example/bundle.js"
+    "bundle": "node_modules/.bin/browserify -r ./src/bootslide:bootslide -r jquery -o example/bundle.js"
   },
   "author": "Nathan Bowser <nathan.bowser@spiderstrategies.com>",
   "license": "BSD",
