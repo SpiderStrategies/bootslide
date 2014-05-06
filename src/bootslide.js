@@ -92,8 +92,9 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
       // If it's a function, that means it's the last step
       li.addClass('bootslide-endpoint')
       a.click(function (e) {
-        args.unshift(e)
-        fn.apply(this, args)
+        var _args = args.concat()
+        _args.unshift(e)
+        fn.apply(this, _args)
       })
       // If they set up a last icon for each item
       if (self.last) {
