@@ -63,6 +63,10 @@
             }
           })
 
+          bootslide.on('slide', function (depth, target) {
+            console.log(depth, target)
+          })
+
           $('#container').html(bootslide.render())
         }
 

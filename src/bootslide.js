@@ -1,4 +1,6 @@
 var $ = require('jquery')
+  , EventEmitter = require('events').EventEmitter
+  , util = require('util')
 
 var Bootslide = function (menu, opts) {
   var opts = opts || {}
@@ -18,6 +20,8 @@ var Bootslide = function (menu, opts) {
 
   this.menu = menu
 }
+
+util.inherits(Bootslide, EventEmitter)
 
 Bootslide.prototype.render = function () {
   var div = $('<div>').addClass('bootslide-container').width(this.width)
@@ -40,7 +44,7 @@ Bootslide.prototype.render = function () {
 
     previous.after(target)
     self.resetMargins()
-    $('.bootslide-menu-slider').css('margin-left', target.index() * width * -1)
+    self.slide(target)
   })
 
   return div
@@ -57,18 +61,24 @@ Bootslide.prototype.resetMargins = function (ctx) {
   })
 }
 
+Bootslide.prototype.slide = function (target) {
+  this.emit('slide', target.index(), target)
+  $('.bootslide-menu-slider').css('margin-left', target.index() * this.width * -1)
+}
+
 Bootslide.prototype.buildSections = function (menu, sections, back) {
-  var width = this.width
-    , header = $('<div>').addClass('bootslide-header').text(menu.label)
+  var header = $('<div>').addClass('bootslide-header').text(menu.label)
     , section = $('<div>').attr('id', 'bootstrap-' + menu.label.replace(/\ /,'-'))
                           .addClass('bootslide-section')
                           .width(this.width)
                           .append(header)
+    , self = this
 
   if (back) {
     header.prepend(this.back).click(function () {
-      var ml = (($(this).parents('.bootslide-section').index() * width) - width) * -1
-      $('.bootslide-menu-slider').css('margin-left', ml)
+      var target = $(this).parents('.bootslide-section')
+                          .prev('.bootslide-section')
+      self.slide(target)
     })
   }
 
