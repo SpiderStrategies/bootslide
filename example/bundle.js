@@ -10240,7 +10240,7 @@ Bootslide.prototype.slide = function (target) {
 
 Bootslide.prototype.buildSections = function (menu, sections, back) {
   var header = $('<div>').addClass('bootslide-header').text(menu.label)
-    , section = $('<div>').attr('id', 'bootstrap-' + menu.label.replace(/\ /,'-'))
+    , section = $('<div>').attr('id', 'bootstrap-' + menu.label.replace(/\ /g,'-'))
                           .addClass('bootslide-section')
                           .width(this.width)
                           .append(header)
