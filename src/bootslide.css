@@ -3,10 +3,10 @@
   position: relative;
   overflow-x: hidden;
 
-  -webkit-transition: margin-left .3s linear;
-  -moz-transition: margin-left .3s linear;
-  -o-transition: margin-left .3s linear;
-  transition: margin-left .3s linear;
+  -webkit-transition: height .2s ease-in-out;
+  -moz-transition: height .2s ease-in-out;
+  -o-transition: height .2s ease-in-out;
+  transition: height .2s ease-in-out;
 }
 
 .bootslide-header {
@@ -32,10 +32,10 @@
 }
 
 .bootslide-menu-slider {
-  -webkit-transition: margin-left .5s;
-  -moz-transition: margin-left .5s;
-  -o-transition: margin-left .5s;
-  transition: margin-left .5s;
+  -webkit-transition: margin-left .3s ease-in-out;
+  -moz-transition: margin-left .3s ease-in-out;
+  -o-transition: margin-left .3s ease-in-out;
+  transition: margin-left .3s ease-in-out;
 }
 
 .bootslide-menu-slider ul > li > a {
