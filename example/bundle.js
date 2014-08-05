@@ -10170,7 +10170,7 @@ return jQuery;
 },{}],"jquery":[function(require,module,exports){
 module.exports=require('PB7Fkk');
 },{}],"02Bbs6":[function(require,module,exports){
-var $ = require('jquery')
+var process=require("__browserify_process");var $ = require('jquery')
   , EventEmitter = require('events').EventEmitter
   , util = require('util')
 
@@ -10178,6 +10178,7 @@ var getLabel = function (text) {
   return text.replace(/\ /g,'-')
              .replace(/[^\w\s-]/g, '')
 }
+
 var Bootslide = function (menu, opts) {
   var opts = opts || {}
   this.width = opts.width || 250
@@ -10223,6 +10224,10 @@ Bootslide.prototype.render = function () {
     self.slide(target)
   })
 
+  process.nextTick(function () {
+    self.slide($('.bootslide-container .bootslide-section:first'))
+  })
+
   return div
 }
 
@@ -10240,6 +10245,12 @@ Bootslide.prototype.resetMargins = function (ctx) {
 Bootslide.prototype.slide = function (target) {
   this.emit('slide', target.index(), target)
   $('.bootslide-menu-slider').css('margin-left', target.index() * this.width * -1)
+
+  // Now animate the height
+  $('.bootslide-container').animate({ height: target.height() }, {
+    duration: 300,
+    easing: 'linear'
+  })
 }
 
 Bootslide.prototype.buildSections = function (menu, sections, back) {
@@ -10304,6 +10315,6 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
 
 module.exports = Bootslide
 
-},{"events":1,"jquery":"PB7Fkk","util":5}],"bootslide":[function(require,module,exports){
+},{"__browserify_process":3,"events":1,"jquery":"PB7Fkk","util":5}],"bootslide":[function(require,module,exports){
 module.exports=require('02Bbs6');
 },{}]},{},[])

@@ -52,6 +52,10 @@ Bootslide.prototype.render = function () {
     self.slide(target)
   })
 
+  process.nextTick(function () {
+    self.slide($('.bootslide-container .bootslide-section:first'))
+  })
+
   return div
 }
 
@@ -69,6 +73,12 @@ Bootslide.prototype.resetMargins = function (ctx) {
 Bootslide.prototype.slide = function (target) {
   this.emit('slide', target.index(), target)
   $('.bootslide-menu-slider').css('margin-left', target.index() * this.width * -1)
+
+  // Now animate the height
+  $('.bootslide-container').animate({ height: target.height() }, {
+    duration: 300,
+    easing: 'linear'
+  })
 }
 
 Bootslide.prototype.buildSections = function (menu, sections, back) {
