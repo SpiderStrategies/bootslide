@@ -2,6 +2,11 @@ var $ = require('jquery')
   , EventEmitter = require('events').EventEmitter
   , util = require('util')
 
+var getLabel = function (text) {
+  return text.replace(/\ /g,'-')
+             .replace(/[^\w\s-]/g, '')
+}
+
 var Bootslide = function (menu, opts) {
   var opts = opts || {}
   this.width = opts.width || 250
@@ -68,7 +73,8 @@ Bootslide.prototype.slide = function (target) {
 
 Bootslide.prototype.buildSections = function (menu, sections, back) {
   var header = $('<div>').addClass('bootslide-header').text(menu.label)
-    , section = $('<div>').attr('id', 'bootstrap-' + menu.label.replace(/\ /g,'-'))
+    , l = getLabel(menu.label)
+    , section = $('<div>').attr('id', 'bootstrap-' + l)
                           .addClass('bootslide-section')
                           .width(this.width)
                           .append(header)
@@ -86,8 +92,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     , self = this
 
   $.each(menu.target, function (index, target) {
-    var label = target.label.replace(/\ /g,'-')
-                            .replace(/[^\w\s-]/g, '')
+    var label = getLabel(target.label)
       , a = $('<a href="#' + ('bootstrap-' + label) + '">')
                 .text(target.label)
                 .addClass(label.toLowerCase())
