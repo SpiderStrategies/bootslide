@@ -2,6 +2,11 @@
   background-color: #fff;
   position: relative;
   overflow-x: hidden;
+
+  -webkit-transition: margin-left .3s linear;
+  -moz-transition: margin-left .3s linear;
+  -o-transition: margin-left .3s linear;
+  transition: margin-left .3s linear;
 }
 
 .bootslide-header {

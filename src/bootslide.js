@@ -75,10 +75,7 @@ Bootslide.prototype.slide = function (target) {
   $('.bootslide-menu-slider').css('margin-left', target.index() * this.width * -1)
 
   // Now animate the height
-  $('.bootslide-container').animate({ height: target.height() }, {
-    duration: 300,
-    easing: 'linear'
-  })
+  $('.bootslide-container').height(target.height())
 }
 
 Bootslide.prototype.buildSections = function (menu, sections, back) {
