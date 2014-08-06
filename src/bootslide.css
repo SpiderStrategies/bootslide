@@ -32,10 +32,10 @@
 }
 
 .bootslide-menu-slider {
-  -webkit-transition: margin-left .3s ease-in-out;
-  -moz-transition: margin-left .3s ease-in-out;
-  -o-transition: margin-left .3s ease-in-out;
-  transition: margin-left .3s ease-in-out;
+  -webkit-transition: -webkit-transform .3s ease-in-out;
+  -moz-transition: -moz-transform .3s ease-in-out;
+  -o-transition: -o-transform .3s ease-in-out;
+  transition: transform .3s ease-in-out;
 }
 
 .bootslide-menu-slider ul > li > a {

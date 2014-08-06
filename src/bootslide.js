@@ -60,19 +60,19 @@ Bootslide.prototype.render = function () {
 }
 
 Bootslide.prototype.reset = function () {
-  $('.bootslide-menu-slider').css('margin-left', 0)
+  $('.bootslide-menu-slider').css('transform', 'translate(0, 0)')
 }
 
 Bootslide.prototype.resetMargins = function (ctx) {
   var width = this.width
-  $('.bootslide-section', ctx).css('margin-left', function (i) {
-    return width * i
+  $('.bootslide-section', ctx).css('transform', function (i) {
+    return 'translate(' + (width * i) + 'px,0)'
   })
 }
 
 Bootslide.prototype.slide = function (target) {
   this.emit('slide', target.index(), target)
-  $('.bootslide-menu-slider').css('margin-left', target.index() * this.width * -1)
+  $('.bootslide-menu-slider').css('transform', 'translate(' + target.index() * this.width * -1 + 'px,0)')
 
   // Now animate the height
   $('.bootslide-container').height(target.height())
