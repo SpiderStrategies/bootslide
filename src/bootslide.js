@@ -52,15 +52,13 @@ Bootslide.prototype.render = function () {
     self.slide(target)
   })
 
-  process.nextTick(function () {
-    self.slide($('.bootslide-container .bootslide-section:first'))
-  })
+  process.nextTick(this.reset.bind(this))
 
   return div
 }
 
 Bootslide.prototype.reset = function () {
-  $('.bootslide-menu-slider').css('transform', 'translate(0, 0)')
+  this.slide($('.bootslide-container .bootslide-section:first'))
 }
 
 Bootslide.prototype.resetMargins = function (ctx) {
