@@ -29,7 +29,7 @@ var Bootslide = function (menu, opts) {
 util.inherits(Bootslide, EventEmitter)
 
 Bootslide.prototype.render = function () {
-  var div = $('<div>').addClass('bootslide-container').width(this.width)
+  var div = this.el = $('<div>').addClass('bootslide-container').width(this.width)
     , slider = $('<div>').addClass('bootslide-menu-slider')
     , width = this.width
     , self = this
@@ -98,8 +98,10 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
 
   $.each(menu.target, function (index, target) {
     var label = getLabel(target.label)
+
+      , content = target.content ? target.content() : target.label
       , a = $('<a href="#' + ('bootstrap-' + label) + '">')
-                .text(target.label)
+                .append(content)
                 .addClass(label.toLowerCase())
       , li = $('<li>').append(a)
 
