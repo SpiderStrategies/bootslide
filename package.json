@@ -8,12 +8,14 @@
     "url": "https://github.com/SpiderStrategies/bootslide"
   },
   "scripts": {
-    "bundle": "node_modules/.bin/browserify -r ./src/bootslide:bootslide -r jquery -o example/bundle.js"
+    "bundle": "node_modules/.bin/browserify -r ./src/bootslide:bootslide -r jquery -o example/bundle.js",
+    "watch": "node_modules/.bin/watchify --debug -r ./src/bootslide:bootslide -r jquery -o example/bundle.js"
   },
   "author": "Nathan Bowser <nathan.bowser@spiderstrategies.com>",
   "license": "BSD",
   "devDependencies": {
-    "browserify": "~3.20.0"
+    "browserify": "~3.20.0",
+    "watchify": "^3.2.1"
   },
   "dependencies": {
     "jquery": "^2.1.1"

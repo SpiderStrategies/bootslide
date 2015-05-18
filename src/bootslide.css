@@ -1,12 +1,12 @@
 .bootslide-container {
   background-color: #fff;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 
-  -webkit-transition: height .2s ease-in-out;
-  -moz-transition: height .2s ease-in-out;
-  -o-transition: height .2s ease-in-out;
-  transition: height .2s ease-in-out;
+  -webkit-transition: height .2s ease-in-out, width .2s ease-in-out;
+  -moz-transition: height .2s ease-in-out, width .2s ease-in-out;
+  -o-transition: height .2s ease-in-out, width .2s ease-in-out;
+  transition: height .2s ease-in-out, width .2s ease-in-out;
 }
 
 .bootslide-header {
