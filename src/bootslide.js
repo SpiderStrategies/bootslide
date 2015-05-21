@@ -68,12 +68,26 @@ Bootslide.prototype.resetMargins = function (ctx) {
   })
 }
 
-Bootslide.prototype.slide = function (target) {
+Bootslide.prototype.slide = function (target, back) {
+  // Make sure the menu we're going to is visible
+  $(target).css('visibility', 'visible')
+
+  if (!back) {
+    // Make all subsequent menus invisible, so we don't have overlap
+    // (easier than dealing with zindex). Particularly important with
+    // contentEndpoints
+    // We don't want to do this if going backwards, because the next
+    // item is sliding out of view.
+    $(target).nextAll().css('visibility', 'hidden')
+  }
+
+
   this.emit('slide', target.index(), target)
   $('.bootslide-menu-slider').css('transform', 'translate(' + target.index() * this.width * -1 + 'px,0)')
 
-  // Now animate the height
+  // Now animate the height and width
   $('.bootslide-container').height(target.height())
+                           .width(target.width())
 }
 
 Bootslide.prototype.buildSections = function (menu, sections, back) {
@@ -89,8 +103,18 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     header.prepend(this.back).click(function () {
       var target = $(this).parents('.bootslide-section')
                           .prev('.bootslide-section')
-      self.slide(target)
+      self.slide(target, true)
     })
+  }
+
+  if (menu.contentEndpoint) {
+    // If we're at a content endpoint, then just stick a placeholder
+    // and we're done. The content will be set if/when the item
+    // is selected
+    section.addClass('bootslide-content-placeholder')
+
+    sections.unshift(section.get(0))
+    return section
   }
 
   var ul = $('<ul>').addClass('bootslide-menu nav nav-list')
@@ -107,7 +131,25 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
 
     ul.append(li)
 
-    if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
+    function addAndContinue () {
+      li.addClass('bootslide-step')
+      // Keep digging
+      a.addClass('bootslide-scrollable')
+      a.prepend(self.next)
+      return self.buildSections(target, sections, true)
+    }
+
+    if (target.contentEndpoint) {
+      var newSection = addAndContinue()
+
+      a.click(function (e) {
+        if (newSection.hasClass('bootslide-content-placeholder')) {
+          newSection.removeClass('bootslide-content-placeholder')
+          newSection.append(target.contentEndpoint())
+          newSection.css('width', '')
+        }
+      })
+    } else if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
       var fn = (typeof target.target === 'undefined' && self.defaultTarget) || target.target
         , args = target.args || []
 
@@ -127,15 +169,13 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
       // If it's a string, treat it as a basic url
       a.attr('href', target.target)
     } else {
-      li.addClass('bootslide-step')
-      // Keep digging
-      a.addClass('bootslide-scrollable')
-      a.prepend(self.next)
-      self.buildSections(target, sections, true)
+      addAndContinue()
     }
   })
 
   sections.unshift(section.append(ul).get(0))
+
+  return section
 }
 
 module.exports = Bootslide
