@@ -55,6 +55,15 @@
                 target: 'http://www.google.com'
               },
               {
+                label: 'Unnecessarily wide',
+                width: 600,
+                target: [
+                  {label: 'A'},
+                  {label: 'B'},
+                  {label: 'C'}
+                ]
+              },
+              {
                 label: 'Cheezburger',
                 contentEndpoint: function () {
                   return $('<img src=cheezburger.jpg style="width: 570px; height:595px">').get(0)

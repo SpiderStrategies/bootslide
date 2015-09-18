@@ -31,7 +31,6 @@ util.inherits(Bootslide, EventEmitter)
 Bootslide.prototype.render = function () {
   var div = this.el = $('<div>').addClass('bootslide-container').width(this.width)
     , slider = $('<div>').addClass('bootslide-menu-slider')
-    , width = this.width
     , self = this
 
   div.append(slider)
@@ -62,9 +61,17 @@ Bootslide.prototype.reset = function () {
 }
 
 Bootslide.prototype.resetMargins = function (ctx) {
-  var width = this.width
   $('.bootslide-section', ctx).css('transform', function (i) {
-    return 'translate(' + (width * i) + 'px,0)'
+    // Figure out width of all previous sections (ie sections to the left)
+    var prevWidth = $(this).prevAll()
+      .map(function () { return $(this).width() }).get()
+      .reduce(function (sum, current) { return sum + current }, 0)
+
+    // Store the point that bootslide-menu-slider has to translate to
+    // to show this section
+    $(this).data('target-translate', prevWidth * -1)
+
+    return 'translate(' + prevWidth + 'px,0)'
   })
 }
 
@@ -83,7 +90,8 @@ Bootslide.prototype.slide = function (target, back) {
 
 
   this.emit('slide', target.index(), target)
-  $('.bootslide-menu-slider').css('transform', 'translate(' + target.index() * this.width * -1 + 'px,0)')
+
+  $('.bootslide-menu-slider').css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
 
   // Now animate the height and width
   $('.bootslide-container').height(target.height())
@@ -95,7 +103,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     , l = getLabel(menu.label)
     , section = $('<div>').attr('id', 'bootstrap-' + l)
                           .addClass('bootslide-section')
-                          .width(this.width)
+                          .width(menu.width || this.width)
                           .append(header)
     , self = this
 
