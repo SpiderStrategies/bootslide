@@ -12,8 +12,8 @@ var Bootslide = function (menu, opts) {
   this.width = opts.width || 250
 
   // By default the back control is the bootstrap left arrow
-  this.back = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
-  this.next = '<div class="bootslide-next">' + (opts.next || '<i class="icon-chevron-right"></i>') + '</div>'
+  this.backIcon = '<div class="bootslide-back">' + (opts.back || '<i class="icon-chevron-left"></i>') + '</div>'
+  this.nextIcon = '<div class="bootslide-next">' + (opts.next || '<i class="icon-chevron-right"></i>') + '</div>'
 
   // Sets a default target function
   this.defaultTarget = opts.defaultTarget
@@ -88,6 +88,7 @@ Bootslide.prototype.slide = function (target, back) {
     $(target).nextAll().css('visibility', 'hidden')
   }
 
+  $(target).addClass('bootslide-current').siblings().removeClass('bootslide-current')
 
   this.emit('slide', target.index(), target)
 
@@ -108,7 +109,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     , self = this
 
   if (back) {
-    header.prepend(this.back).click(function () {
+    header.prepend(this.backIcon).click(function () {
       var target = $(this).parents('.bootslide-section')
                           .prev('.bootslide-section')
       self.slide(target, true)
@@ -143,7 +144,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
       li.addClass('bootslide-step')
       // Keep digging
       a.addClass('bootslide-scrollable')
-      a.prepend(self.next)
+      a.prepend(self.nextIcon)
       return self.buildSections(target, sections, true)
     }
 
@@ -184,6 +185,14 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
   sections.unshift(section.append(ul).get(0))
 
   return section
+}
+
+Bootslide.prototype.back = function () {
+  var previous = $('.bootslide-section.bootslide-current').prev()
+  
+  if (previous.length > 0) {
+    this.slide(previous, true)
+  }
 }
 
 module.exports = Bootslide
