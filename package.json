@@ -1,6 +1,6 @@
 {
   "name": "bootslide",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "description": "Builds an iphone type menu",
   "main": "src/bootslide.js",
   "repository": {
