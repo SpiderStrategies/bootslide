@@ -7,6 +7,10 @@ var getLabel = function (text) {
              .replace(/[^\w\s-]/g, '')
 }
 
+var getId = function (menu) {
+  return menu.id || getLabel(menu.label)
+}
+
 var Bootslide = function (menu, opts) {
   var opts = opts || {}
   this.width = opts.width || 250
@@ -102,7 +106,7 @@ Bootslide.prototype.slide = function (target, back) {
 Bootslide.prototype.buildSections = function (menu, sections, back) {
   var header = $('<div>').addClass('bootslide-header').text(menu.label)
     , l = getLabel(menu.label)
-    , section = $('<div>').attr('id', 'bootstrap-' + l)
+    , section = $('<div>').attr('id', 'bootstrap-' + getId(menu))
                           .addClass('bootslide-section')
                           .width(menu.width || this.width)
                           .append(header)
@@ -131,9 +135,8 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
 
   $.each(menu.target, function (index, target) {
     var label = getLabel(target.label)
-
       , content = target.content ? target.content() : target.label
-      , a = $('<a href="#' + ('bootstrap-' + label) + '">')
+      , a = $('<a href="#' + ('bootstrap-' + getId(target)) + '">')
                 .append(content)
                 .addClass(label.toLowerCase())
       , li = $('<li>').append(a)
