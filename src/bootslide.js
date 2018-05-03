@@ -44,10 +44,10 @@ Bootslide.prototype.render = function () {
   slider.append(sections)
   this.resetMargins(div)
 
-  $('.bootslide-menu a.bootslide-scrollable', div).click(function (e) {
+  $('.bootslide-menu .bootslide-scrollable', div).click(function (e) {
     e.preventDefault()
 
-    var target = $($(this).attr('href'))
+    var target = $($(this).attr('data-target-id'))
       , previous = $(this).parents('.bootslide-section')
 
     previous.after(target)
@@ -136,7 +136,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
   $.each(menu.target, function (index, target) {
     var label = getLabel(target.label)
       , content = target.content ? target.content() : target.label
-      , a = $('<a href="#' + ('bootstrap-' + getId(target)) + '">')
+      , a = $('<div data-target-id="#' + ('bootstrap-' + getId(target)) + '" class="bootslide-menu-item">')
                 .append(content)
                 .addClass(label.toLowerCase())
       , li = $('<li>').append(a)
@@ -179,7 +179,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     } else if (typeof target.target === 'string' ) {
       li.addClass('bootslide-endpoint')
       // If it's a string, treat it as a basic url
-      a.attr('href', target.target)
+      a.attr('data-target-id', target.target)
     } else {
       addAndContinue()
     }
