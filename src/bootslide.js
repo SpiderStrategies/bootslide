@@ -140,6 +140,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
                 .append(content)
                 .addClass(label.toLowerCase())
       , li = $('<li>').append(a)
+                .css('display', target.hidden ? 'none' : '')
 
     ul.append(li)
 
@@ -196,6 +197,21 @@ Bootslide.prototype.back = function () {
   if (previous.length > 0) {
     this.slide(previous, true)
   }
+}
+
+/**
+ * For a menu item matching the given id, shows the item if show=true,
+ * hides it otherwise.
+ */
+Bootslide.prototype.toggleItem = function (id, show) {
+  let item = $(this.el).find(`[data-target-id="#bootstrap-${id}"]`)
+  if (item.parent().length === 0) {
+    return
+  } 
+
+  item.parent().css('display', show ? '' : 'none')
+
+  $(this.el).height(item.closest('.bootslide-section').height())
 }
 
 module.exports = Bootslide
