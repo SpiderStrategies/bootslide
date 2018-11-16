@@ -211,7 +211,12 @@ Bootslide.prototype.toggleItem = function (id, show) {
 
   item.parent().css('display', show ? '' : 'none')
 
-  $(this.el).height(item.closest('.bootslide-section').height())
+  // If the item we toggled is in the currently displayed menu, adjust
+  // the main element's height to compensate for the menu's new height
+  let section = item.closest('.bootslide-section')
+  if (section.hasClass('bootslide-current')) {
+    $(this.el).height(section.height())
+  }
 }
 
 module.exports = Bootslide
