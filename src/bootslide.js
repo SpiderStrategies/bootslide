@@ -219,4 +219,13 @@ Bootslide.prototype.toggleItem = function (id, show) {
   }
 }
 
+/**
+ * Changes the width of the visible bootslide window; uses animation.
+ * Calling code is responsible for making sure the content properly
+ * fits the new bootslide window.
+ */
+Bootslide.prototype.setWidth = function (newWidth) {
+  $(this.el).width(newWidth)
+}
+
 module.exports = Bootslide
