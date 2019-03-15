@@ -43,3 +43,11 @@
   padding: 8px 14px;
   border-bottom: 1px solid #e5e5e5;
 }
+
+ul.bootslide-tiles {
+  list-style: none;
+}
+
+ul.bootslide-tiles li {
+  display: inline-block;
+}
