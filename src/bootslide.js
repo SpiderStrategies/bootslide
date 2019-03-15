@@ -27,27 +27,34 @@ var Bootslide = function (menu, opts) {
     this.last = '<div class="bootslide-next">' + opts.last  + '</div>'
   }
 
+  if (opts.el) {
+    this.el = $(opts.el)
+  } else {
+    this.el = $('<div>')
+  }
+
   this.menu = menu
 }
 
 util.inherits(Bootslide, EventEmitter)
 
 Bootslide.prototype.render = function () {
-  var div = this.el = $('<div>').addClass('bootslide-container').width(this.width)
-    , slider = $('<div>').addClass('bootslide-menu-slider')
+  this.el.addClass('bootslide-container').width(this.width)
+  
+  var slider = $('<div>').addClass('bootslide-menu-slider')
     , self = this
 
-  div.append(slider)
+  this.el.append(slider)
 
   var sections = []
   this.buildSections(this.menu, sections)
   slider.append(sections)
-  this.resetMargins(div)
+  this.resetMargins(this.el)
 
-  $('.bootslide-menu .bootslide-scrollable', div).click(function (e) {
+  $('.bootslide-menu .bootslide-scrollable', this.el).click(function (e) {
     e.preventDefault()
 
-    var target = $($(this).attr('data-target-id'))
+    var target = $($(this).attr('data-target-id'), self.el)
       , previous = $(this).parents('.bootslide-section')
 
     previous.after(target)
@@ -57,11 +64,11 @@ Bootslide.prototype.render = function () {
 
   process.nextTick(this.reset.bind(this))
 
-  return div
+  return this.el
 }
 
 Bootslide.prototype.reset = function () {
-  this.slide($('.bootslide-container .bootslide-section:first'))
+  this.slide($('.bootslide-section:first', this.el))
 }
 
 Bootslide.prototype.resetMargins = function (ctx) {
@@ -96,10 +103,10 @@ Bootslide.prototype.slide = function (target, back) {
 
   this.emit('slide', target.index(), target)
 
-  $('.bootslide-menu-slider').css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
+  $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
 
   // Now animate the height and width
-  $('.bootslide-container').height(target.height())
+  this.el.height(target.height())
                            .width(target.width())
 }
 
@@ -130,8 +137,11 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     return section
   }
 
-  var ul = $('<ul>').addClass('bootslide-menu nav nav-list')
-    , self = this
+  var ul = $('<ul>')
+    .addClass('bootslide-menu nav nav-list')
+    .toggleClass('bootslide-tiles', menu.layout === 'tiles')
+
+  var self = this
 
   $.each(menu.target, function (index, target) {
     var label = getLabel(target.label)
@@ -192,7 +202,7 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
 }
 
 Bootslide.prototype.back = function () {
-  var previous = $('.bootslide-section.bootslide-current').prev()
+  var previous = $('.bootslide-section.bootslide-current', this.el).prev()
   
   if (previous.length > 0) {
     this.slide(previous, true)

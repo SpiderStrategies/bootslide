@@ -83,8 +83,46 @@
           })
 
           $('#container').html(bootslide.render())
-        }
 
+          var tileMenu = {
+            label: 'Tile Menu',
+            layout: 'tiles',
+            width: 360,
+            target: [
+              {
+                label: 'Fruits',
+                target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
+              },
+              {
+                label: 'Submenu',
+                target: [
+                  { label: 'Hey', target: () => alert(('Hey!'))}
+                ]
+              },
+              {
+                label: 'Alert',
+                target: () => alert('Alert!')
+              },
+              {
+                label: 'Champs',
+                target: () => alert('E-A-G-L-E-S EAGLES!')
+              },
+              {
+                label: 'This far...',
+                target: () => alert('No further!')
+              }
+            ]
+          }
+
+          var tileBootslide = window.tileBootslide = new Bootslide(tileMenu, {
+            el: $('#tile-menu'),
+            defaultTarget: function () {
+              console.log('default target', arguments)
+            }
+          })
+
+          tileBootslide.render()
+        }
     </script>
     <style>
 
@@ -93,11 +131,43 @@
         background-color: #eed;
       }
 
+      #tile-menu {
+        margin-top: 20px;
+      }
+
+      .bootslide-tiles {
+        box-sizing: border-box;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      *, *:before, *:after {
+        box-sizing: inherit;
+      }
+
+      .bootslide-tiles li {
+        border: thin black solid;
+        margin: 10px;
+        width: 100px;
+        height: 100px;
+      }
+
+      .bootslide-tiles li .bootslide-menu-item {
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+      }
+
+      .bootslide-tiles li .bootslide-menu-item .bootslide-next {
+        display: none;
+      }
     </style>
   </head>
   <body>
 
     <div id="container"></div>
+
+    <div id="tile-menu"></div>
 
   </body>
 </html>
