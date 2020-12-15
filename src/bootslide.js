@@ -86,7 +86,35 @@ Bootslide.prototype.resetMargins = function (ctx) {
   })
 }
 
+/**
+ * Programmatic API to navigate/slide to a given target.
+ *
+ * @param {String} targetId - ID of the target to slide to
+ *
+ * @param {Object} [options] - if the target has an onNavigate callback, this
+ * object will be passed to the callback
+ */
+Bootslide.prototype.navigate = function (targetId, options) {
+  let target = $('#bootstrap-' + targetId, this.el)
+  let current = $('.bootslide-current', this.el)
+
+  // Move the target menu directly after the current menu
+  current.after(target)
+  // Shift positions around so that the target menu is visibly right up against
+  // the current menu
+  this.resetMargins()
+
+  this.slide(target, false)
+
+  let onNavigate = target.data('onNavigate')
+  if (onNavigate) {
+    onNavigate(options)
+  }
+}
+
 Bootslide.prototype.slide = function (target, back) {
+  prepareContentEndpoint(target)
+
   // Make sure the menu we're going to is visible
   $(target).css('visibility', 'visible')
 
@@ -110,7 +138,18 @@ Bootslide.prototype.slide = function (target, back) {
                            .width(target.width())
 }
 
-Bootslide.prototype.buildSections = function (menu, sections, back) {
+/**
+ * If necessary, render any on-first-view content before sliding to the target
+ */
+function prepareContentEndpoint (target) {
+  if (target.hasClass('bootslide-content-placeholder')) {
+    target.removeClass('bootslide-content-placeholder')
+    target.append(target.data('contentEndpoint')())
+    target.css('width', '')
+  }
+}
+
+Bootslide.prototype.buildSections = function (menu, sections, backTo) {
   var header = $('<div>').addClass('bootslide-header').text(menu.label)
     , l = getLabel(menu.label)
     , section = $('<div>').attr('id', 'bootstrap-' + getId(menu))
@@ -119,11 +158,9 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
                           .append(header)
     , self = this
 
-  if (back) {
+  if (backTo) {
     header.prepend(this.backIcon).click(function () {
-      var target = $(this).parents('.bootslide-section')
-                          .prev('.bootslide-section')
-      self.slide(target, true)
+      self.slide(backTo, true)
     })
   }
 
@@ -131,7 +168,20 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
     // If we're at a content endpoint, then just stick a placeholder
     // and we're done. The content will be set if/when the item
     // is selected
-    section.addClass('bootslide-content-placeholder')
+    section
+      .addClass('bootslide-content-placeholder')
+      .data({
+        contentEndpoint: menu.contentEndpoint,
+        onNavigate: menu.onNavigate
+      })
+
+    // A contentEndpoint can still have child menu items, though, so we need
+    // to build those, too
+    if (menu.target) {
+      menu.target.forEach(target => {
+        self.buildSections(target, sections, section)
+      })
+    }
 
     sections.unshift(section.get(0))
     return section
@@ -159,18 +209,14 @@ Bootslide.prototype.buildSections = function (menu, sections, back) {
       // Keep digging
       a.addClass('bootslide-scrollable')
       a.prepend(self.nextIcon)
-      return self.buildSections(target, sections, true)
+      return self.buildSections(target, sections, section)
     }
 
     if (target.contentEndpoint) {
       var newSection = addAndContinue()
 
       a.click(function (e) {
-        if (newSection.hasClass('bootslide-content-placeholder')) {
-          newSection.removeClass('bootslide-content-placeholder')
-          newSection.append(target.contentEndpoint())
-          newSection.css('width', '')
-        }
+        prepareContentEndpoint(newSection)
       })
     } else if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
       var fn = (typeof target.target === 'undefined' && self.defaultTarget) || target.target
