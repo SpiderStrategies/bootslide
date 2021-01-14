@@ -51,3 +51,7 @@ ul.bootslide-tiles {
 ul.bootslide-tiles li {
   display: inline-block;
 }
+
+.bootslide-section.is-overflowing .nav-list {
+  overflow-y: scroll;
+}

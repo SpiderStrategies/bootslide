@@ -133,9 +133,35 @@ Bootslide.prototype.slide = function (target, back) {
 
   $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
 
+  let targetHeight = adjustTargetToFitWindow(target)
+
   // Now animate the height and width
-  this.el.height(target.height())
+  this.el.height(targetHeight)
                            .width(target.width())
+}
+
+function adjustTargetToFitWindow (target) {
+  let targetHeight = target.height()
+  let maxHeight = document.documentElement.clientHeight
+  let navList = target.find('.nav-list')
+
+  // If the target is a "standard" menu (a list of menu items, as opposed to a
+  // contentEndpoint), and it's taller than the window, then make it scrollable
+  if (navList.length > 0 && targetHeight > maxHeight) {
+    // First fit the target menu to the window
+    target.height(maxHeight)
+
+    // Then explicitly set the height for the nav-list (leaving out the header,
+    // which shouldn't scroll) so we can use overflow
+    let headerHeight = target.find('.bootslide-header').outerHeight()
+    target.find('.nav-list').height(maxHeight - headerHeight)
+
+    targetHeight = maxHeight
+
+    target.addClass('is-overflowing')
+  }
+
+  return targetHeight
 }
 
 /**
