@@ -88,30 +88,59 @@
             label: 'Tile Menu',
             layout: 'tiles',
             width: 360,
-            target: [
-              {
-                label: 'Fruits',
-                target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
-              },
-              {
-                label: 'Submenu',
-                target: [
-                  { label: 'Hey', target: () => alert(('Hey!'))}
-                ]
-              },
-              {
-                label: 'Alert',
-                target: () => alert('Alert!')
-              },
-              {
-                label: 'Champs',
-                target: () => alert('E-A-G-L-E-S EAGLES!')
-              },
-              {
-                label: 'This far...',
-                target: () => alert('No further!')
-              }
-            ]
+            sections: [{
+              label: 'First Section',
+              target: [
+                {
+                  label: 'Fruits',
+                  target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
+                },
+                {
+                  label: 'Submenu',
+                  target: [
+                    { label: 'Hey', target: () => alert(('Hey!'))}
+                  ]
+                },
+                {
+                  label: 'Alert',
+                  target: () => alert('Alert!')
+                },
+                {
+                  label: 'Champs',
+                  target: () => alert('E-A-G-L-E-S EAGLES!')
+                },
+                {
+                  label: 'This far...',
+                  target: () => alert('No further!')
+                }
+              ]
+            },{
+              label: 'Second Section',
+              target: [
+                {
+                  label: 'Fruits',
+                  target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
+                },
+                {
+                  label: 'Submenu',
+                  target: [
+                    { label: 'Hey', target: () => alert(('Hey!'))}
+                  ]
+                },
+                {
+                  label: 'Alert',
+                  target: () => alert('Alert!')
+                },
+                {
+                  label: 'Champs',
+                  target: () => alert('E-A-G-L-E-S EAGLES!')
+                },
+                {
+                  label: 'This far...',
+                  target: () => alert('No further!')
+                }
+              ]
+            }]
           }
 
           var tileBootslide = window.tileBootslide = new Bootslide(tileMenu, {
