@@ -40,7 +40,7 @@ util.inherits(Bootslide, EventEmitter)
 
 Bootslide.prototype.render = function () {
   this.el.addClass('bootslide-container').width(this.width)
-  
+
   var slider = $('<div>').addClass('bootslide-menu-slider')
     , self = this
 
@@ -213,69 +213,92 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
     return section
   }
 
-  var ul = $('<ul>')
-    .addClass('bootslide-menu nav nav-list')
-    .toggleClass('bootslide-tiles', menu.layout === 'tiles')
+  var container = $('<div>').addClass('bootslide-container-row')
 
-  var self = this
+  /**
+   * Takes an array of targets and creates clickable bootslide endpoints.
+   * @param {Array} targets the targets to be rendered into a clickable list
+   */
+  var createList = targets => {
+    var ul = $('<ul>')
+      .addClass('bootslide-menu nav nav-list')
+      .toggleClass('bootslide-tiles', menu.layout === 'tiles')
 
-  $.each(menu.target, function (index, target) {
-    var label = getLabel(target.label)
-      , content = target.content ? target.content() : target.label
-      , a = $('<div data-target-id="#' + ('bootstrap-' + getId(target)) + '" class="bootslide-menu-item">')
-                .append(content)
-                .addClass(label.toLowerCase())
-      , li = $('<li>').append(a)
-                .css('display', target.hidden ? 'none' : '')
+    var self = this
 
-    ul.append(li)
+    $.each(targets, function (index, target) {
+      var label = getLabel(target.label)
+        , content = target.content ? target.content() : target.label
+        , a = $('<div data-target-id="#' + ('bootstrap-' + getId(target)) + '" class="bootslide-menu-item">')
+                  .append(content)
+                  .addClass(label.toLowerCase())
+        , li = $('<li>').append(a)
+                  .css('display', target.hidden ? 'none' : '')
 
-    function addAndContinue () {
-      li.addClass('bootslide-step')
-      // Keep digging
-      a.addClass('bootslide-scrollable')
-      a.prepend(self.nextIcon)
-      return self.buildSections(target, sections, section)
-    }
+      ul.append(li)
+      container.append(ul)
 
-    if (target.contentEndpoint) {
-      var newSection = addAndContinue()
-
-      a.click(function (e) {
-        prepareContentEndpoint(newSection)
-      })
-    } else if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
-      var fn = (typeof target.target === 'undefined' && self.defaultTarget) || target.target
-        , args = target.args || []
-
-      // If it's a function, that means it's the last step
-      li.addClass('bootslide-endpoint')
-      a.click(function (e) {
-        var _args = args.concat()
-        _args.unshift(e)
-        fn.apply(this, _args)
-      })
-      // If they set up a last icon for each item
-      if (self.last) {
-        a.prepend(self.last)
+      function addAndContinue () {
+        li.addClass('bootslide-step')
+        // Keep digging
+        a.addClass('bootslide-scrollable')
+        a.prepend(self.nextIcon)
+        return self.buildSections(target, sections, section)
       }
-    } else if (typeof target.target === 'string' ) {
-      li.addClass('bootslide-endpoint')
-      // If it's a string, treat it as a basic url
-      a.attr('data-target-id', target.target)
-    } else {
-      addAndContinue()
-    }
-  })
 
-  sections.unshift(section.append(ul).get(0))
+      if (target.contentEndpoint) {
+        var newSection = addAndContinue()
+
+        a.click(function (e) {
+          prepareContentEndpoint(newSection)
+        })
+      } else if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
+        var fn = (typeof target.target === 'undefined' && self.defaultTarget) || target.target
+          , args = target.args || []
+
+        // If it's a function, that means it's the last step
+        li.addClass('bootslide-endpoint')
+        a.click(function (e) {
+          var _args = args.concat()
+          _args.unshift(e)
+          fn.apply(this, _args)
+        })
+        // If they set up a last icon for each item
+        if (self.last) {
+          a.prepend(self.last)
+        }
+      } else if (typeof target.target === 'string' ) {
+        li.addClass('bootslide-endpoint')
+        // If it's a string, treat it as a basic url
+        a.attr('data-target-id', target.target)
+      } else {
+        addAndContinue()
+      }
+    })
+  }
+
+  // If there are sections to the menu, create those sections,
+  // placing menu items in each one
+  if (menu.sections) {
+    $.each(menu.sections, (i, section) => {
+      let sectionLabel = $('<div class="bootslide-section-label">')
+        .append(section.label)
+      container.append(sectionLabel)
+      createList(section.target)
+    })
+  // else, just create the list of menu items
+  } else {
+    createList(menu.target)
+  }
+
+  sections.unshift(section.append(container).get(0))
 
   return section
 }
 
 Bootslide.prototype.back = function () {
   var previous = $('.bootslide-section.bootslide-current', this.el).prev()
-  
+
   if (previous.length > 0) {
     this.slide(previous, true)
   }
@@ -289,7 +312,7 @@ Bootslide.prototype.toggleItem = function (id, show) {
   let item = $(this.el).find(`[data-target-id="#bootstrap-${id}"]`)
   if (item.parent().length === 0) {
     return
-  } 
+  }
 
   item.parent().css('display', show ? '' : 'none')
 
