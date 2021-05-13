@@ -215,7 +215,11 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
 
   var container = $('<div>').addClass('bootslide-container-row')
 
-  var createList = (targets) => {
+  /**
+   * Takes an array of targets and creates clickable bootslide endpoints.
+   * @param {Array} targets the targets to be rendered into a clickable list
+   */
+  var createList = targets => {
     var ul = $('<ul>')
       .addClass('bootslide-menu nav nav-list')
       .toggleClass('bootslide-tiles', menu.layout === 'tiles')
@@ -271,10 +275,10 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
         addAndContinue()
       }
     })
-
   }
 
-  // If there are sections to the menu,
+  // If there are sections to the menu, create those sections,
+  // placing menu items in each one
   if (menu.sections) {
     $.each(menu.sections, (i, section) => {
       let sectionLabel = $('<div class="bootslide-section-label">')
@@ -282,11 +286,10 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
       container.append(sectionLabel)
       createList(section.target)
     })
+  // else, just create the list of menu items
   } else {
     createList(menu.target)
   }
-
-
 
   sections.unshift(section.append(container).get(0))
 
