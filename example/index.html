@@ -84,66 +84,36 @@
 
           $('#container').html(bootslide.render())
 
-          var tileMenu = {
+          let sampleTargets = [{
+              label: 'Fruits',
+              target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
+            },
+            {
+              label: 'Submenu',
+              target: [
+                { label: 'Hey', target: () => alert(('Hey!'))}
+              ]
+            },
+            {
+              label: 'Alert',
+              target: () => alert('Alert!')
+            },
+            {
+              label: 'Champs',
+              target: () => alert('E-A-G-L-E-S EAGLES!')
+            },
+            {
+              label: 'This far...',
+              target: () => alert('No further!')
+            }
+          ]
+
+          window.tileBootslide = new Bootslide({
             label: 'Tile Menu',
             layout: 'tiles',
             width: 360,
-            sections: [{
-              label: 'First Section',
-              target: [
-                {
-                  label: 'Fruits',
-                  target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
-                },
-                {
-                  label: 'Submenu',
-                  target: [
-                    { label: 'Hey', target: () => alert(('Hey!'))}
-                  ]
-                },
-                {
-                  label: 'Alert',
-                  target: () => alert('Alert!')
-                },
-                {
-                  label: 'Champs',
-                  target: () => alert('E-A-G-L-E-S EAGLES!')
-                },
-                {
-                  label: 'This far...',
-                  target: () => alert('No further!')
-                }
-              ]
-            },{
-              label: 'Second Section',
-              target: [
-                {
-                  label: 'Fruits',
-                  target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
-                },
-                {
-                  label: 'Submenu',
-                  target: [
-                    { label: 'Hey', target: () => alert(('Hey!'))}
-                  ]
-                },
-                {
-                  label: 'Alert',
-                  target: () => alert('Alert!')
-                },
-                {
-                  label: 'Champs',
-                  target: () => alert('E-A-G-L-E-S EAGLES!')
-                },
-                {
-                  label: 'This far...',
-                  target: () => alert('No further!')
-                }
-              ]
-            }]
-          }
-
-          var tileBootslide = window.tileBootslide = new Bootslide(tileMenu, {
+            target: sampleTargets
+          }, {
             el: $('#tile-menu'),
             defaultTarget: function () {
               console.log('default target', arguments)
@@ -151,6 +121,23 @@
           })
 
           tileBootslide.render()
+
+          window.tileBootslideSections = new Bootslide({
+            label: 'Tile Menu W/ Sections',
+            layout: 'tiles',
+            width: 360,
+            sections: [{
+              label: 'First Section',
+              target: sampleTargets
+            },{
+              label: 'Second Section',
+              target: sampleTargets
+            }]
+          }, {
+            el: $('#tile-menu-with-sections')
+          })
+
+          tileBootslideSections.render()
         }
     </script>
     <style>
@@ -160,7 +147,7 @@
         background-color: #eed;
       }
 
-      #tile-menu {
+      #tile-menu, #tile-menu-with-sections {
         margin-top: 20px;
       }
 
@@ -197,6 +184,8 @@
     <div id="container"></div>
 
     <div id="tile-menu"></div>
+
+    <div id="tile-menu-with-sections"></div>
 
   </body>
 </html>
