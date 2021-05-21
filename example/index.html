@@ -89,6 +89,19 @@
               target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
             },
             {
+                label: 'Sectioned Fruits',
+                layout: 'tiles',
+                sections: [{
+                    label: 'Subsection 1',
+                    target: [ {label: 'Apple', args: ['Honeycrisp'], target: apple}, {label: 'Banana'}, {label: 'Kiwi', args: [true]} ]
+                  },
+                  {
+                    label: 'subsection 2',
+                    target: [ {label: 'Apple2', args: ['Honeycrisp'], target: apple}, {label: 'Banana2'}, {label: 'Kiwi', args: [true]} ]
+                  }]
+
+            },
+            {
               label: 'Submenu',
               target: [
                 { label: 'Hey', target: () => alert(('Hey!'))}
