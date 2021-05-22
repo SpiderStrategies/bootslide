@@ -133,7 +133,7 @@ Bootslide.prototype.slide = function (target, back) {
 
   $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
 
-  let targetHeight = adjustTargetToFitWindow(target)
+  let targetHeight = adjustTargetToFitWindow.bind(this, target)
 
   // Now animate the height and width
   this.el.height(targetHeight)
@@ -142,9 +142,8 @@ Bootslide.prototype.slide = function (target, back) {
 
 function adjustTargetToFitWindow (target) {
   let targetHeight = target.height()
-  let maxHeight = document.documentElement.clientHeight
+  let maxHeight = this.menu.maxHeight || document.documentElement.clientHeight
   let navList = target.find('.nav-list')
-
   // If the target is a "standard" menu (a list of menu items, as opposed to a
   // contentEndpoint), and it's taller than the window, then make it scrollable
   if (navList.length > 0 && targetHeight > maxHeight) {
@@ -154,7 +153,8 @@ function adjustTargetToFitWindow (target) {
     // Then explicitly set the height for the nav-list (leaving out the header,
     // which shouldn't scroll) so we can use overflow
     let headerHeight = target.find('.bootslide-header').outerHeight()
-    target.find('.nav-list').height(maxHeight - headerHeight)
+    let wrapper = this.menu.categories ? '.bootslide-container-row' : '.nav-list'
+    target.find(wrapper).height(maxHeight - headerHeight)
 
     targetHeight = maxHeight
 
@@ -213,7 +213,7 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
     return section
   }
 
-  var container = $('<div>').addClass('bootslide-container-row')
+  let container = $(`<div class="bootslide-container-row ${menu.categories && 'has-categories'}">`)
 
   /**
    * Takes an array of targets and creates clickable bootslide endpoints.
@@ -277,14 +277,13 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
     })
   }
 
-  // If there are sections to the menu, create those sections,
+  // If there are categories to the menu, create those categories,
   // placing menu items in each one
-  if (menu.sections) {
-    $.each(menu.sections, (i, section) => {
-      let sectionLabel = $('<div class="bootslide-section-label">')
-        .append(section.label)
-      container.append(sectionLabel)
-      createList(section.target)
+  if (menu.categories) {
+    $.each(menu.categories, (i, cat) => {
+      let label = $('<div class="bootslide-category-label">').append(cat.label)
+      container.append(label)
+      createList(cat.target)
     })
   // else, just create the list of menu items
   } else {

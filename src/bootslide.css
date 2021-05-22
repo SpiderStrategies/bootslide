@@ -52,6 +52,7 @@ ul.bootslide-tiles li {
   display: inline-block;
 }
 
-.bootslide-section.is-overflowing .nav-list {
-  overflow-y: scroll;
+.bootslide-section.is-overflowing .bootslide-container-row:not(.has-categories) .nav-list,
+.bootslide-container-row.has-categories {
+  overflow-y: auto;
 }
