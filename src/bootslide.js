@@ -277,14 +277,14 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
     })
   }
 
-  // If there are sections to the menu, create those sections,
+  // If there are categories to the menu, create those categories,
   // placing menu items in each one
-  if (menu.sections) {
-    $.each(menu.sections, (i, section) => {
-      let sectionLabel = $('<div class="bootslide-section-label">')
-        .append(section.label)
-      container.append(sectionLabel)
-      createList(section.target)
+  if (menu.categories) {
+    $.each(menu.categories, (i, cat) => {
+      let content = $('<h3>').append(cat.label)
+      let label = $('<div class="bootslide-category-label">').append(content)
+      container.append(label)
+      createList(cat.target)
     })
   // else, just create the list of menu items
   } else {
