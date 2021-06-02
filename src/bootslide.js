@@ -51,7 +51,7 @@ Bootslide.prototype.render = function () {
   slider.append(sections)
   this.resetMargins(this.el)
 
-  $('.bootslide-menu .bootslide-scrollable', this.el).click(function (e) {
+  $('.bootslide-menu .bootslide-scrollable', this.el).on('click', function (e) {
     e.preventDefault()
 
     var target = $($(this).attr('data-target-id'), self.el)
@@ -185,7 +185,7 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
     , self = this
 
   if (backTo) {
-    header.prepend(this.backIcon).click(function () {
+    header.prepend(this.backIcon).on('click', function () {
       self.slide(backTo, true)
     })
   }
@@ -249,16 +249,19 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
       if (target.contentEndpoint) {
         var newSection = addAndContinue()
 
-        a.click(function (e) {
+        a.on('click', function (e) {
           prepareContentEndpoint(newSection)
         })
-      } else if (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget)) {
+      // If this target is of layout 'tiles', let it's tiles handle the click event.
+      // If the target is a function or if there is a defaultTarget set for this menu (and no target function is set) go ahead and use one
+      // of those as the click handler.
+      } else if (target.layout != 'tiles' && (typeof target.target === 'function' || (typeof target.target === 'undefined' && self.defaultTarget))) {
         var fn = (typeof target.target === 'undefined' && self.defaultTarget) || target.target
           , args = target.args || []
 
         // If it's a function, that means it's the last step
         li.addClass('bootslide-endpoint')
-        a.click(function (e) {
+        a.on('click', function (e) {
           var _args = args.concat()
           _args.unshift(e)
           fn.apply(this, _args)
