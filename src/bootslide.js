@@ -227,9 +227,11 @@ Bootslide.prototype.buildSections = function (menu, sections, backTo) {
     var self = this
 
     $.each(targets, function (index, target) {
+      const {classNames=[]} = target
+      const className = ['bootslide-menu-item'].concat(classNames).join(' ')
       var label = getLabel(target.label)
         , content = target.content ? target.content() : target.label
-        , a = $('<div data-target-id="#' + ('bootstrap-' + getId(target)) + '" class="bootslide-menu-item">')
+        , a = $('<div data-target-id="#' + ('bootstrap-' + getId(target)) + `" class="${className}">`)
                   .append(content)
                   .addClass(label.toLowerCase())
         , li = $('<li>').append(a)
