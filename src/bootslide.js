@@ -72,17 +72,20 @@ Bootslide.prototype.reset = function () {
 }
 
 Bootslide.prototype.resetMargins = function (ctx) {
+  var self = this
   $('.bootslide-section', ctx).css('transform', function (i) {
     // Figure out width of all previous sections (ie sections to the left)
     var prevWidth = $(this).prevAll()
       .map(function () { return $(this).width() }).get()
       .reduce(function (sum, current) { return sum + current }, 0)
 
+    var translateValue = self.isRtl() ? prevWidth * -1 : prevWidth
+
     // Store the point that bootslide-menu-slider has to translate to
     // to show this section
-    $(this).data('target-translate', prevWidth * -1)
+    $(this).data('target-translate', translateValue)
 
-    return 'translate(' + prevWidth + 'px,0)'
+    return 'translate(' + translateValue + 'px,0)'
   })
 }
 
@@ -131,13 +134,17 @@ Bootslide.prototype.slide = function (target, back) {
 
   this.emit('slide', target.index(), target)
 
-  $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
+  $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate')*-1 + 'px,0)')
 
   let targetHeight = adjustTargetToFitWindow(target)
 
   // Now animate the height and width
   this.el.height(targetHeight)
                            .width(target.width())
+}
+
+Bootslide.prototype.isRtl = function () {
+  return document.documentElement.dir == 'rtl'
 }
 
 function adjustTargetToFitWindow (target) {
