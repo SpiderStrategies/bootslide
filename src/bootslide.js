@@ -83,7 +83,7 @@ Bootslide.prototype.resetMargins = function (ctx) {
 
     // Store the point that bootslide-menu-slider has to translate to
     // to show this section
-    $(this).data('target-translate', translateValue)
+    $(this).data('target-translate', translateValue * -1)
 
     return 'translate(' + translateValue + 'px,0)'
   })
@@ -134,7 +134,7 @@ Bootslide.prototype.slide = function (target, back) {
 
   this.emit('slide', target.index(), target)
 
-  $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate')*-1 + 'px,0)')
+  $('.bootslide-menu-slider', this.el).css('transform', 'translate(' + $(target).data('target-translate') + 'px,0)')
 
   let targetHeight = adjustTargetToFitWindow(target)
 
