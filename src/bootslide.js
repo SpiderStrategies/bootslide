@@ -183,8 +183,11 @@ function prepareContentEndpoint (target) {
 }
 
 Bootslide.prototype.buildSections = function (menu, sections, backTo) {
-  var header = $('<div>').addClass('bootslide-header').text(menu.label)
-    , l = getLabel(menu.label)
+  var header = $('<div>').addClass('bootslide-header')
+    , headerLabel = $('<span>')
+      .addClass('bootslide-header-label')
+      .text(menu.label)
+      .appendTo(header)
     , section = $('<div>').attr('id', 'bootstrap-' + getId(menu))
                           .addClass('bootslide-section')
                           .width(menu.width || this.width)
@@ -334,6 +337,15 @@ Bootslide.prototype.toggleItem = function (id, show) {
   if (section.hasClass('bootslide-current')) {
     $(this.el).height(section.height())
   }
+}
+
+/**
+ * For a menu matching the given id, change the header label to the
+ * given value.
+ */
+Bootslide.prototype.setMenuLabel = function (id, label) {
+  $(this.el).find(`#bootstrap-${id} .bootslide-header-label`)
+    .text(label)
 }
 
 /**
